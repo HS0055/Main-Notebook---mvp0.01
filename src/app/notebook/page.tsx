@@ -9,7 +9,7 @@ import AIAssistantPanel from '@/components/notebook/AIAssistantPanel';
 import StudyModeToggle from '@/components/notebook/StudyModeToggle';
 import { BookCover } from '@/components/notebook/BookCover';
 import { PageNavigation } from '@/components/notebook/PageNavigation';
-import { BookOpen, Maximize2, Split, Settings, X, Wand2, Sparkles } from 'lucide-react';
+import { BookOpen, Maximize2, Split, Settings, X, Wand2, Sparkles, Eraser } from 'lucide-react';
 
 import UnifiedAILayout from '@/components/notebook/UnifiedAILayout';
 import ExactTemplates from '@/components/notebook/ExactTemplates';
@@ -65,6 +65,7 @@ export default function NotebookPage() {
   const [showTemplateGenerator, setShowTemplateGenerator] = useState(false);
   const [bookmarkStates, setBookmarkStates] = useState<{[key: string]: boolean}>({});
   const [isLoading, setIsLoading] = useState(true);
+  const [showAiOnboarding, setShowAiOnboarding] = useState(false);
 
   // Define activeNotebook FIRST - before other useMemo hooks that depend on it
   const activeNotebook = useMemo(() => {
@@ -267,6 +268,30 @@ export default function NotebookPage() {
     };
 
     loadNotebooks();
+  }, []);
+
+  // One-time onboarding hint for AI button
+  useEffect(() => {
+    try {
+      const seen = typeof window !== 'undefined' && localStorage.getItem('ai_onboarding_seen');
+      if (!seen) {
+        setShowAiOnboarding(true);
+        typeof window !== 'undefined' && localStorage.setItem('ai_onboarding_seen', '1');
+      }
+    } catch (e) {}
+  }, []);
+
+  // Keyboard shortcut: Ctrl/Cmd + Shift + L opens AI Layout
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      const isMod = navigator.platform.toLowerCase().includes('mac') ? e.metaKey : e.ctrlKey;
+      if (isMod && e.shiftKey && (e.key === 'L' || e.key === 'l')) {
+        e.preventDefault();
+        setShowUnifiedAI(true);
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
   }, []);
 
   const handleNotebookSelect = useCallback((notebookId: string) => {
@@ -710,6 +735,18 @@ export default function NotebookPage() {
               <span className="relative z-10 font-semibold">AI Layout</span>
             </button>
 
+            {/* Clear AI Overlay when active */}
+            {activePage?.templateOverlay && (
+              <button
+                onClick={() => handleTemplateOverlayChange(null)}
+                className="flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 text-gray-700 rounded-lg shadow-sm hover:shadow-md hover:bg-gray-50 transition-all duration-200"
+                title="🧹 Clear AI overlay from this page"
+              >
+                <Eraser className="w-4 h-4" />
+                <span className="text-sm font-medium">Clear AI</span>
+              </button>
+            )}
+
             {/* Quick Templates */}
             <button
               onClick={() => setShowTemplateGenerator(true)}
@@ -992,6 +1029,23 @@ export default function NotebookPage() {
                 studyMode={currentStudyMode}
                 allNotebooks={notebooks}
               />
+            </div>
+          )}
+        </div>
+
+        {/* Floating AI Action (persistent) */}
+        <div className="fixed bottom-6 right-6 z-40">
+          <button
+            onClick={() => setShowUnifiedAI(true)}
+            className="relative inline-flex items-center justify-center w-14 h-14 rounded-full shadow-2xl bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 text-white hover:scale-105 transition-transform"
+            title="Open AI Layout (Cmd/Ctrl+Shift+L)"
+          >
+            <Wand2 className="w-6 h-6" />
+          </button>
+          {/* Onboarding tooltip (one-time) */}
+          {showAiOnboarding && (
+            <div className="absolute -top-3 right-16 bg-white border border-purple-200 text-purple-800 text-xs font-medium px-3 py-2 rounded-lg shadow-lg w-56">
+              🪄 Tip: Click the magic wand to generate smart layouts.
             </div>
           )}
         </div>

@@ -7,35 +7,33 @@
 - Click **"Start Writing (It's Free!)"**
 - Or go directly to: `http://localhost:3000/notebook`
 
-### Step 2: Look for the Purple Demo Box
-- **Top-left corner** of the notebook page
-- **Purple gradient box** with magic wand icon
-- Shows you exactly where to find the feature
+### Step 2: Find the Magic Wand (two ways)
+- **Top-right toolbar button**: "AI Layout" (purple gradient)
+- **Floating action button**: bottom-right magic wand (🪄)
+- Keyboard: **Cmd/Ctrl + Shift + L**
 
-### Step 3: Find the Magic Wand Button
-- **Top-right corner** of any notebook page
-- **Purple gradient button** with magic wand icon (🪄)
-- Located next to the text settings button
+### Step 3: Open the Unified AI Layout
+The unified AI modal lets you:
+- Add a prompt and/or upload an image
+- Preview multiple smart layouts
+- Insert as an editable overlay on the page
 
 ## 🎨 What You Can Do
 
 ### Upload Your Planner Images
-1. Click the **magic wand button (🪄)**
-2. **Upload or drag & drop** your image
-3. **AI analyzes** the content automatically
-4. **Choose from 4 AI-generated layouts**:
-   - AI Optimized
-   - Current Style Match  
-   - High Contrast
-   - Content Focused
+1. Click **AI Layout** (toolbar) or the **floating wand** (🪄)
+2. **Upload or drag & drop** your image (optional)
+3. Enter a **prompt** (optional) for style/intention
+4. **AI analyzes** and generates diverse layouts (minimal, detailed, creative)
+5. **Preview** and **Insert** the layout as editable overlay
 
 ### Smart Features
 - ✅ **Auto-detects** calendars, text, lists
 - ✅ **Matches your paper style** (ruled, grid, dots)
-- ✅ **Adjustable opacity** for overlays
-- ✅ **Real-time preview** of changes
-- ✅ **Drag & resize** images in notebook
-- ✅ **Save to notebook** with one click
+- ✅ **Editable overlay elements** (text, inputs)
+- ✅ **Opacity + paper style suggestions**
+- ✅ **Real-time preview** and instant insert
+- ✅ **One-click Clear AI** to remove overlays
 
 ## 🚀 Perfect for Your Use Case
 
@@ -53,14 +51,15 @@ The AI will:
 
 ## 🔧 If You Still Can't See It
 
-The server has been rebuilt and restarted. The features should now be visible at:
-- Main app: http://localhost:3000
-- Notebook: http://localhost:3000/notebook
-
 Look for:
-- 📍 **Purple demo box** (top-left)
-- 🪄 **Magic wand button** (top-right)
-- 🎨 **AI layout options** (when you click it)
+- 🪄 **AI Layout** button (top-right)
+- 🪄 **Floating wand** bottom-right
+- Try **Cmd/Ctrl + Shift + L**
+
+If the overlay is not editable after insert:
+- Ensure it’s inserted via **Unified AI** (not as plain text)
+- Check that the modal shows **editable elements** preview
+- Use **Clear AI** to reset and try again
 
 ## 🎯 Next Steps
 

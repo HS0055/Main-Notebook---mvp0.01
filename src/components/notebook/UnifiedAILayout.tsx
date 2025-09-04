@@ -81,6 +81,7 @@ export default function UnifiedAILayout({
   paperStyle,
   userId
 }: UnifiedAILayoutProps) {
+  console.log('🎨 UnifiedAILayout rendered:', { isVisible, paperStyle, userId });
   const [prompt, setPrompt] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
@@ -117,9 +118,14 @@ export default function UnifiedAILayout({
 
   // Generate layouts using unified system
   const handleGenerateLayouts = useCallback(async () => {
-    if (!prompt.trim() && !imageFile) return;
+    if (!prompt.trim() && !imageFile) {
+      console.log('❌ AI: No prompt or image provided');
+      return;
+    }
 
+    console.log('🚀 AI: Starting layout generation with prompt:', prompt);
     setIsGenerating(true);
+
     try {
       const formData = new FormData();
       formData.append('prompt', prompt.trim());
@@ -128,26 +134,34 @@ export default function UnifiedAILayout({
       if (userId) formData.append('userId', userId);
       if (imageFile) formData.append('image', imageFile);
 
+      console.log('📡 AI: Making API call to /api/ai-layout-unified');
+
       const response = await fetch('/api/ai-layout-unified', {
         method: 'POST',
         body: formData
       });
 
+      console.log('📡 AI: Response status:', response.status);
+
       const data = await response.json();
-      
+      console.log('📡 AI: Response data:', data);
+
       if (data.success) {
+        console.log('✅ AI: Successfully generated layouts:', data.layouts.length);
         setGeneratedLayouts(data.layouts);
         setSuggestions(data.suggestions || []);
         setLearning(data.learning);
         setSelectedLayout(0);
         setShowPreview(true);
+        console.log('🎨 AI: Switching to preview mode');
       } else {
-        console.error('Failed to generate layouts:', data.error);
+        console.error('❌ AI: Failed to generate layouts:', data.error);
       }
     } catch (error) {
-      console.error('Error generating layouts:', error);
+      console.error('❌ AI: Error generating layouts:', error);
     } finally {
       setIsGenerating(false);
+      console.log('🏁 AI: Generation process completed');
     }
   }, [prompt, imageFile, mode, paperStyle, userId]);
 

@@ -723,9 +723,10 @@ export default function NotebookPage() {
             {/* AI Layout Generator - Primary Feature */}
             <button
               onClick={() => {
-                console.log('AI Layout button clicked!');
+                console.log('🎯 AI Layout button clicked!');
+                console.log('📊 Current state:', { showUnifiedAI, activeNotebookId, activePageId });
                 setShowUnifiedAI(true);
-                console.log('showUnifiedAI set to true');
+                console.log('✅ showUnifiedAI set to true, modal should open');
               }}
               className="group relative flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:from-purple-700 hover:via-blue-700 hover:to-cyan-700"
               title="🧠 AI Layout Generator - Create smart layouts with templates"
@@ -1038,7 +1039,12 @@ export default function NotebookPage() {
         {currentStudyMode !== 'study' && (
           <div className="fixed bottom-6 right-6 z-40">
             <button
-              onClick={() => setShowUnifiedAI(true)}
+              onClick={() => {
+                console.log('🪄 Floating wand clicked!');
+                console.log('📊 Current state:', { showUnifiedAI, activeNotebookId, activePageId, currentStudyMode });
+                setShowUnifiedAI(true);
+                console.log('✅ Floating wand: showUnifiedAI set to true');
+              }}
               className="relative inline-flex items-center justify-center w-14 h-14 rounded-full shadow-2xl bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 text-white hover:scale-105 transition-transform"
               title="Open AI Layout (Cmd/Ctrl+Shift+L)"
               aria-label="Open AI Layout"

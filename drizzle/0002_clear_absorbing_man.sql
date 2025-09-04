@@ -1,0 +1,1 @@
+ALTER TABLE `notebooks` ADD `study_mode` text DEFAULT 'write';

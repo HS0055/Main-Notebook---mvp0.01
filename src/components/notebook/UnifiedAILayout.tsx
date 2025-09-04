@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
+import DOMPurify from 'dompurify';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   X, 
@@ -148,7 +149,11 @@ export default function UnifiedAILayout({
 
       if (data.success) {
         console.log('✅ AI: Successfully generated layouts:', data.layouts.length);
-        setGeneratedLayouts(data.layouts);
+        const safeLayouts = (data.layouts || []).map((l: any) => ({
+          ...l,
+          svgData: l?.svgData ? DOMPurify.sanitize(l.svgData, { FORBID_TAGS: ['script'], FORBID_ATTR: ['onload','onclick','onerror'] }) : l?.svgData
+        }));
+        setGeneratedLayouts(safeLayouts);
         setSuggestions(data.suggestions || []);
         setLearning(data.learning);
         setSelectedLayout(0);
@@ -621,10 +626,10 @@ export default function UnifiedAILayout({
                       {/* Editable Layout */}
                       <div className="relative border border-gray-200 rounded-lg overflow-hidden">
                         <div className="w-full h-auto" style={{ pointerEvents: 'none' }}>
-                          {/* Wrap in <div> to avoid executing inline scripts in SVG */}
+                          {/* Safe sanitized SVG preview */}
                           {generatedLayouts[selectedLayout].svgData ? (
                             <div
-                              dangerouslySetInnerHTML={{ __html: generatedLayouts[selectedLayout].svgData }}
+                              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(generatedLayouts[selectedLayout].svgData, { FORBID_TAGS: ['script'], FORBID_ATTR: ['onload','onclick','onerror'] }) }}
                             />
                           ) : null}
                         </div>

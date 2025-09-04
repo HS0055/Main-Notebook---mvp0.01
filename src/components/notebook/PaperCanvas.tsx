@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Settings, Type, AlignLeft, X, ImageIcon, Wand2 } from 'lucide-react';
 import SmartImageUpload from './SmartImageUpload';
 import EditableLayout from './EditableLayout';
+import DOMPurify from 'dompurify';
 
 interface PaperStyle {
   lineType: 'ruled' | 'grid' | 'dots' | 'blank' | 'graph' | 'music';
@@ -336,10 +337,10 @@ export default function PaperCanvas({
               console.log('PaperCanvas: Not JSON, treating as regular SVG:', e);
             }
             
-            // Regular SVG overlay (wrap in safe container)
+            // Regular SVG overlay (wrap in safe container + sanitize)
             return (
               <div className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none z-0" style={{ opacity: 0.8 }}>
-                <div dangerouslySetInnerHTML={{ __html: templateOverlay }} />
+                <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(templateOverlay, { FORBID_TAGS: ['script'], FORBID_ATTR: ['onload','onclick','onerror'] }) }} />
               </div>
             );
           })()}

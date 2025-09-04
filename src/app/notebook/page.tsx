@@ -729,6 +729,7 @@ export default function NotebookPage() {
               }}
               className="group relative flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:from-purple-700 hover:via-blue-700 hover:to-cyan-700"
               title="🧠 AI Layout Generator - Create smart layouts with templates"
+              aria-label="Open AI Layout"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 rounded-xl blur opacity-75 group-hover:opacity-100 transition-opacity"></div>
               <Sparkles className="relative z-10 w-5 h-5" />
@@ -1033,22 +1034,25 @@ export default function NotebookPage() {
           )}
         </div>
 
-        {/* Floating AI Action (persistent) */}
-        <div className="fixed bottom-6 right-6 z-40">
-          <button
-            onClick={() => setShowUnifiedAI(true)}
-            className="relative inline-flex items-center justify-center w-14 h-14 rounded-full shadow-2xl bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 text-white hover:scale-105 transition-transform"
-            title="Open AI Layout (Cmd/Ctrl+Shift+L)"
-          >
-            <Wand2 className="w-6 h-6" />
-          </button>
-          {/* Onboarding tooltip (one-time) */}
-          {showAiOnboarding && (
-            <div className="absolute -top-3 right-16 bg-white border border-purple-200 text-purple-800 text-xs font-medium px-3 py-2 rounded-lg shadow-lg w-56">
-              🪄 Tip: Click the magic wand to generate smart layouts.
-            </div>
-          )}
-        </div>
+        {/* Floating AI Action (persistent, hidden in study mode to avoid interference) */}
+        {currentStudyMode !== 'study' && (
+          <div className="fixed bottom-6 right-6 z-40">
+            <button
+              onClick={() => setShowUnifiedAI(true)}
+              className="relative inline-flex items-center justify-center w-14 h-14 rounded-full shadow-2xl bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 text-white hover:scale-105 transition-transform"
+              title="Open AI Layout (Cmd/Ctrl+Shift+L)"
+              aria-label="Open AI Layout"
+            >
+              <Wand2 className="w-6 h-6" />
+            </button>
+            {/* Onboarding tooltip (one-time) */}
+            {showAiOnboarding && (
+              <div className="absolute -top-3 right-16 bg-white border border-purple-200 text-purple-800 text-xs font-medium px-3 py-2 rounded-lg shadow-lg w-56">
+                🪄 Tip: Click the magic wand to generate smart layouts.
+              </div>
+            )}
+          </div>
+        )}
 
         <div className="border-t border-gray-200 bg-white">
           <PageNavigation

@@ -234,10 +234,10 @@ export default function UnifiedAILayout({
 
     const baseStyle: React.CSSProperties = {
       position: 'absolute',
-      left: element.x,
-      top: element.y,
-      width: element.width,
-      height: element.height,
+      left: `${element.x}px`,
+      top: `${element.y}px`,
+      width: `${element.width}px`,
+      height: `${element.height}px`,
       fontSize: element.style?.fontSize || 14,
       fontFamily: element.style?.fontFamily || 'inherit',
       color: element.style?.color || '#333',
@@ -620,13 +620,14 @@ export default function UnifiedAILayout({
 
                       {/* Editable Layout */}
                       <div className="relative border border-gray-200 rounded-lg overflow-hidden">
-                        <div
-                          className="w-full h-auto"
-                          style={{ pointerEvents: 'none' }}
-                          dangerouslySetInnerHTML={{ 
-                            __html: generatedLayouts[selectedLayout].svgData 
-                          }}
-                        />
+                        <div className="w-full h-auto" style={{ pointerEvents: 'none' }}>
+                          {/* Wrap in <div> to avoid executing inline scripts in SVG */}
+                          {generatedLayouts[selectedLayout].svgData ? (
+                            <div
+                              dangerouslySetInnerHTML={{ __html: generatedLayouts[selectedLayout].svgData }}
+                            />
+                          ) : null}
+                        </div>
                         
                         {/* Editable Elements Overlay */}
                         <div className="absolute inset-0">

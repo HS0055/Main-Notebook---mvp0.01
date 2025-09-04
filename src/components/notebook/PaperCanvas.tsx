@@ -336,13 +336,11 @@ export default function PaperCanvas({
               console.log('PaperCanvas: Not JSON, treating as regular SVG:', e);
             }
             
-            // Regular SVG overlay
+            // Regular SVG overlay (wrap in safe container)
             return (
-              <div
-                className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none z-0"
-                style={{ opacity: 0.8 }}
-                dangerouslySetInnerHTML={{ __html: templateOverlay }}
-              />
+              <div className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none z-0" style={{ opacity: 0.8 }}>
+                <div dangerouslySetInnerHTML={{ __html: templateOverlay }} />
+              </div>
             );
           })()}
         </>
